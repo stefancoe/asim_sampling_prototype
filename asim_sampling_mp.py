@@ -55,7 +55,7 @@ def sample(df):
 if __name__ == '__main__':
     start = time.time()
     
-    zones_with_employment = land_use_df[land_use_df['TOTEMP'] > 0]['zone_id'].unique()
+    zones_with_employment = land_use_df[land_use_df['TOTEMP'] > 0]['TAZ'].unique()
 
     households = households[['income_segment']]
     persons = persons.merge(households, left_on ='household_id', right_index = True)
@@ -95,7 +95,7 @@ if __name__ == '__main__':
 ##### STEP 2- Sample MAZs from parent TAZs #####
     
 ##### multiprocessing
-    df_chunks = np.array_split(test, chunk_size)
+    df_chunks = np.array_split(taz_based_samples, chunk_size)
     pool = mp.Pool(procs, init_pool, [maz_df])
     results = pool.map(sample, df_chunks)
     pool.close()
