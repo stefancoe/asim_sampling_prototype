@@ -5,7 +5,7 @@ import os
 import time
 import multiprocessing as mp
 
-# some data sources come from a previous run so that 
+# some data sources come from a previous 1-zone run so that 
 # fields like income segments are available. 
 data_store = pd.HDFStore('E:\my_test_example_mp\output\pipeline.h5', 'r')
 data_path = r'E:\my_test_example_multizone\data'
@@ -41,7 +41,8 @@ def sample(df):
     
     For each chooser, an ID must be used to represent each unique sample, 
     because it is possible to select the same TAZ more than once per chooser in
-    the initial TAZ-based sampling step.
+    the initial TAZ-based sampling step. This does not include probability weights, 
+    which could be based on size terms and/or distance. 
     
     This function is used for multiprocessing. 
     """
@@ -70,9 +71,10 @@ if __name__ == '__main__':
     samples_list = []
 
 ##### STEP 1- meant to replicate the output of current sampling using TAZs only #####
+
 # this step is only meant to build the data for step 2, not presenting design ideas here. 
 
-# loop through every TAZ, generate 30 samples per chooser. 
+# loop through every TAZ that has workers, generate 30 samples per chooser. 
     for taz in zones_with_workers:
         choosers = workers[workers['home_zone_id']==taz]['person_id']
         samples = np.stack([np.random.choice(zones_with_employment, 30, replace=True) for i in range(len(choosers))])
