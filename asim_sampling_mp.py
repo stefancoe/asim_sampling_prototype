@@ -39,7 +39,7 @@ def sample(df):
     """
     Select 1 MAZ for each TAZ selected in initial TAZ-based sampling.
     
-    For each chooser, an ID must be used to represent each unique sample, 
+    For each chooser, an ID must be used to represent each unique chooser sample, 
     because it is possible to select the same TAZ more than once per chooser in
     the initial TAZ-based sampling step. This does not include probability weights, 
     which could be based on size terms and/or distance. 
